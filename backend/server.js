@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 // const dotenv = require("dotenv");
 const promptRouter = require("./src/routes/ai.routes");
 require("dotenv").config();
@@ -9,6 +10,7 @@ const port = 3001;
 
 //middleware
 app.use(express.json());
+app.use(cors());
 
 //api end points
 app.use("/api/ai", promptRouter);
