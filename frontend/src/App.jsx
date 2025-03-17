@@ -4,6 +4,9 @@ import "prismjs/themes/prism-tomorrow.css";
 import prism from "prismjs";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 
 const App = () => {
   const [code, setCode] = useState(`function sum(){
@@ -59,7 +62,9 @@ const App = () => {
         </div>
 
         <div className="right">
-          {review || "Click the Review button to get feedback on your code."}
+          <Markdown rehypePlugins={[rehypeHighlight]}>
+            {review || "Click the Review button to get feedback on your code."}
+          </Markdown>
         </div>
       </div>
     </>

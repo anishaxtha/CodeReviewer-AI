@@ -87,6 +87,13 @@ body,
   min-height: 200px;
 }
 
+.main .right {
+  background-color: #474646;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  overflow: auto;
+}
+
 /* Add this to your CSS to ensure Monaco editor has black background */
 .monaco-editor,
 .monaco-editor .margin,
