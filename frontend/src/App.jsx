@@ -2,31 +2,65 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import "prismjs/themes/prism-tomorrow.css";
 import prism from "prismjs";
+import Editor from "@monaco-editor/react";
+import axios from "axios";
 
 const App = () => {
-  const [count, setCount] = useState(0);
+  const [code, setCode] = useState(`function sum(){
+       return a+b
+     }`);
+
+  const [review, setReview] = useState("");
 
   useEffect(() => {
     prism.highlightAll();
   }, []);
+
+  const reviewCode = async () => {
+    const response = await axios.post(
+      "http://localhost:3001/api/ai/get-response",
+      { code }
+    );
+    setReview(response.data.data);
+    console.log(response.data);
+  };
 
   return (
     <>
       <div className="main">
         <div className="left">
           <div className="code">
-            <pre>
-              <code className="language-js">
-                {`  function sum(){
-       return a+b
-     }`}
-              </code>
-            </pre>
+            <Editor
+              height="100%"
+              width="100%"
+              language="javascript"
+              highlight={(code) =>
+                prism.highlight(code, prism.languages.javascript, "javascript")
+              }
+              theme="vs-dark"
+              value={code}
+              onChange={(value) => setCode(value)}
+              options={{
+                fontSize: 16,
+                fontFamily: '"Fira Code", "Fira Mono", monospace',
+                padding: { top: 10, bottom: 10 },
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                lineNumbers: "on",
+                roundedSelection: true,
+                selectOnLineNumbers: true,
+              }}
+            />
           </div>
-          <div className="review-button">Review</div>
+          <div className="review-button" onClick={reviewCode}>
+            Review
+          </div>
         </div>
 
-        <div className="right"></div>
+        <div className="right">
+          {review || "Click the Review button to get feedback on your code."}
+        </div>
       </div>
     </>
   );
