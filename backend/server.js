@@ -1,8 +1,18 @@
 const express = require("express");
+// const dotenv = require("dotenv");
+const promptRouter = require("./src/routes/ai.routes");
+require("dotenv").config();
 
 const app = express();
 const port = 3001;
 //api routes for checking the server is running or not
+
+//middleware
+app.use(express.json());
+
+//api end points
+app.use("/api/ai", promptRouter);
+
 app.get("/", (req, res) => {
   res.send("Server is running...");
 });
